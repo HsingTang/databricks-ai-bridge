@@ -84,6 +84,8 @@ class DatabricksSandboxTool(BaseTool):
             execution_timeout=execution_timeout,
         )
         output = (response.stdout or "") + (response.stderr or "")
+        if response.truncated:
+            output += "\n[output truncated]"
         if response.status != ExecuteCommandStatus.EXECUTE_COMMAND_STATUS_COMPLETED:
             output += f"\n[status: {response.status}]"
         if response.exit_code:

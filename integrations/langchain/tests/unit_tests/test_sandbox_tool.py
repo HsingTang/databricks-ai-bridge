@@ -95,3 +95,10 @@ def test_failed_status_is_annotated() -> None:
     result = tool._run(command="x")
     assert "killed" in result
     assert "[status:" in result
+
+
+def test_truncated_output_is_annotated() -> None:
+    tool, _ = _tool(_Response(stdout="partial", truncated=True))
+    result = tool._run(command="cat big")
+    assert "partial" in result
+    assert "[output truncated]" in result
